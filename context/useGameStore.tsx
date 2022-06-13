@@ -4,7 +4,7 @@ import words from '../components/game/words.json';
 interface GameState {
   isStarted: boolean;
   setIsStarted: (boolean: boolean) => void;
-  word: string | null;
+  word: string;
   getWord: () => void;
   input: string;
   setInput: (value: string) => void;
@@ -16,7 +16,7 @@ interface GameState {
 export const useGameStore = create<GameState>((set) => ({
   isStarted: false,
   setIsStarted: (boolean) => set(() => ({ isStarted: boolean })),
-  word: null,
+  word: '',
   getWord: () => set(() => ({ word: words[~~(Math.random() * words.length)] })),
   input: '',
   setInput: (value) => set(() => ({ input: value })),
