@@ -1,0 +1,12 @@
+.countdown {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.countdown * {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-right: 0.2rem;
+  color: white;
+}
