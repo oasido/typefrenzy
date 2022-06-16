@@ -1,19 +1,21 @@
-import { Container } from '@mantine/core';
+import { Input } from '@mantine/core';
 import styles from '../../styles/game-input.module.css';
 import { useGameStore } from '../../context/useGameStore';
 import { useEffect } from 'react';
 
 export const GameInput = () => {
-  const { word, getWord, input, setInput, isStarted, setIsStarted, setAnswers } = useGameStore();
+  const { word, getWord, input, setInput, isInGame, setIsInGame, setAnswers, setGameStartDate } =
+    useGameStore();
 
   const handleInput = () => {
-    if (isStarted === false) {
+    if (isInGame === false) {
       if (input === 'start') {
         getWord();
         setInput('');
-        setIsStarted(true);
+        setIsInGame(true);
+        setGameStartDate(Date.now());
       }
-    } else if (isStarted === true) {
+    } else if (isInGame === true) {
       if (word === input) {
         getWord();
         setInput('');
@@ -24,11 +26,16 @@ export const GameInput = () => {
 
   useEffect(() => {
     handleInput();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input]);
 
   return (
-    <Container size="xs">
-      <input className={styles.input} value={input} onChange={(e) => setInput(e.target.value)} />
-    </Container>
+    <Input
+      value={input}
+      placeholder={word}
+      size="xl"
+      className={styles.input}
+      onChange={(e: any) => setInput(e.target.value)}
+    />
   );
 };
