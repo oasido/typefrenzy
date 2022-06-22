@@ -9,11 +9,16 @@ export const GameWord = () => {
 
   return (
     <>
-      {isInGame === false && (
-        <Text size="xl" className={styles.start}>
-          Type <Code>start</Code> to begin!
-        </Text>
-      )}
+      {isInGame === false &&
+        (isGameEnded === false ? (
+          <Text size="xl" className={styles.start}>
+            Type <Code>start</Code> to begin!
+          </Text>
+        ) : (
+          <Text size="xl" className={styles.start}>
+            Type <Code>start</Code> to start again.
+          </Text>
+        ))}
 
       {isInGame === true && isGameEnded === false && (
         <div className={styles.container}>
