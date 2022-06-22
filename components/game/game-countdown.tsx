@@ -29,8 +29,8 @@ export const GameCountdown = () => {
     seconds: number;
     milliseconds: number;
   }
-  const renderer = ({ minutes, seconds, milliseconds }: Irenderer) => (
-    <Text>{`${minutes}:${seconds}.${milliseconds}s`}</Text>
+  const renderer = ({ seconds, milliseconds }: Irenderer) => (
+    <Text>{`${seconds}.${milliseconds}s`}</Text>
   );
 
   const handleGameComplete = () => {
