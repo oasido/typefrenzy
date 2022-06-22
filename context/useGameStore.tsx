@@ -16,6 +16,8 @@ interface GameState {
   removeAnswers: () => void;
   gameStartDate: number;
   setGameStartDate: (value: number) => void;
+  points: number;
+  setPoints: (value: number) => void;
 }
 
 export const useGameStore = create<GameState>((set) => ({
@@ -33,4 +35,6 @@ export const useGameStore = create<GameState>((set) => ({
   removeAnswers: () => set(() => ({ answers: [] })),
   gameStartDate: Date.now(),
   setGameStartDate: (date) => set(() => ({ gameStartDate: date })),
+  points: 0,
+  setPoints: (value) => set(() => ({ points: value })),
 }));
