@@ -55,6 +55,12 @@ export const GameCountdown = () => {
           />
         </div>
       )}
+      {!isInGame && (
+        <div className={styles.countdown}>
+          <IoMdStopwatch size={20} />
+          {isGameEnded ? <Text>0:0.0s</Text> : <Text>10:0.0s</Text>}
+        </div>
+      )}
     </>
   );
 };
