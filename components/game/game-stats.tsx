@@ -1,10 +1,9 @@
 import styles from '../../styles/game-stats.module.css';
 import { useGameStore } from '../../context/useGameStore';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export const GameStats = () => {
-  const { answers } = useGameStore();
-  const [points, setPoints] = useState<number>(0);
+  const { answers, points, setPoints } = useGameStore();
 
   const handlePoints = (): void => {
     const wordLength = answers[answers.length - 1].length;
