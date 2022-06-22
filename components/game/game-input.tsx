@@ -4,8 +4,19 @@ import { useGameStore } from '../../context/useGameStore';
 import { useEffect } from 'react';
 
 export const GameInput = () => {
-  const { word, getWord, input, setInput, isInGame, setIsInGame, setAnswers, setGameStartDate } =
-    useGameStore();
+  const {
+    word,
+    getWord,
+    input,
+    setInput,
+    isInGame,
+    setIsInGame,
+    setAnswers,
+    setGameStartDate,
+    setIsGameEnded,
+    removeAnswers,
+    setPoints,
+  } = useGameStore();
 
   const handleInput = () => {
     if (isInGame === false) {
@@ -14,6 +25,9 @@ export const GameInput = () => {
         setInput('');
         setIsInGame(true);
         setGameStartDate(Date.now());
+        setIsGameEnded(false);
+        removeAnswers();
+        setPoints(0);
       }
     } else if (isInGame === true) {
       if (word === input) {
