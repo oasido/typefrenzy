@@ -10,6 +10,8 @@ import {
   Title,
 } from '@mantine/core';
 import { useBooleanToggle } from '@mantine/hooks';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const HEADER_HEIGHT = 60;
 
@@ -91,22 +93,29 @@ interface IPageHeader {
 
 export function PageHeader({ links }: IPageHeader) {
   const [opened, toggleOpened] = useBooleanToggle(false);
-  const [active, setActive] = useState(links[0].link);
+  const { pathname } = useRouter();
+
+  const currentPage = links.filter((link) => link.link === pathname);
+
+  const [active, setActive] = useState(() => {
+    return currentPage.length > 0 ? currentPage[0].link : '#';
+  });
   const { classes, cx } = useStyles();
 
   const items = links.map((link) => (
-    <a
-      key={link.label}
+    <Link
       href={link.link}
-      className={cx(classes.link, { [classes.linkActive]: active === link.link })}
+      key={link.label}
       onClick={(event) => {
         event.preventDefault();
         setActive(link.link);
         toggleOpened(false);
       }}
     >
-      {link.label}
-    </a>
+      <a className={cx(classes.link, { [classes.linkActive]: active === link.link })}>
+        {link.label}
+      </a>
+    </Link>
   ));
 
   return (

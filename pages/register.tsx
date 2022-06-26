@@ -24,6 +24,11 @@ const Register: NextPage = () => {
 
   const form = useForm({
     schema: zodResolver(schema),
+    initialValues: {
+      username: '',
+      password: '',
+      confirmPassword: '',
+    },
   });
 
   const handleRegister = () => {};
