@@ -1,0 +1,15 @@
+.registerInputs {
+  margin: 0 auto;
+  max-width: 400px;
+  display: grid;
+  row-gap: 1rem;
+}
+
+.inputIcon {
+  font-size: 1.4rem;
+}
+
+.href {
+  cursor: pointer;
+  color: rgb(48, 142, 250);
+}
