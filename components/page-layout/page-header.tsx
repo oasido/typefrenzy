@@ -106,11 +106,11 @@ export function PageHeader({ links }: IPageHeader) {
     <Link
       href={link.link}
       key={link.label}
-      onClick={(event) => {
-        event.preventDefault();
-        setActive(link.link);
-        toggleOpened(false);
-      }}
+      // onClick={(event) => {
+      //   event.preventDefault();
+      //   setActive(link.link);
+      //   toggleOpened(false);
+      // }}
     >
       <a className={cx(classes.link, { [classes.linkActive]: active === link.link })}>
         {link.label}
