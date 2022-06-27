@@ -2,14 +2,15 @@ import type { NextPage } from 'next';
 import { PageLayout } from '../components/page-layout/page-layout';
 import Link from 'next/link';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import { Button, Center, Container, Input, Title, Text, InputWrapper } from '@mantine/core';
+import { Button, Center, Container, Input, Title, Text, InputWrapper, Alert } from '@mantine/core';
 import { FaUserAstronaut } from 'react-icons/fa';
 import { MdOutlinePassword, MdOutlineAlternateEmail } from 'react-icons/md';
-import { RiFacebookCircleLine, RiGithubLine } from 'react-icons/ri';
+import { GrCircleAlert } from 'react-icons/gr';
 import styles from '../styles/register.module.css';
 import { z } from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 import axios from 'axios';
+import { useState } from 'react';
 
 const schema = z
   .object({
@@ -28,7 +29,16 @@ const schema = z
 
 const Register: NextPage = () => {
   const { data: session } = useSession();
-  console.log(session);
+
+  interface IRegisterError {
+    success: null | true | false;
+    message: null | string;
+  }
+
+  const [registerError, setRegisterError] = useState<IRegisterError>({
+    success: null,
+    message: null,
+  });
 
   const form = useForm({
     schema: zodResolver(schema),
@@ -42,13 +52,15 @@ const Register: NextPage = () => {
 
   const handleRegister = async () => {
     form.validate();
-    console.log(form.values);
     if (Object.entries(form.errors).length === 0) {
       try {
         const response = await axios.post('/api/register', form.values);
-        console.log(response);
+        setRegisterError({
+          success: response.data.success,
+          message: response.data.error,
+        });
       } catch (error) {
-        console.log(error);
+        // do something
       }
     }
   };
@@ -101,6 +113,12 @@ const Register: NextPage = () => {
           <Button color="green" onClick={handleRegister}>
             Register
           </Button>
+
+          {registerError.success === false && (
+            <Alert icon={<GrCircleAlert size={16} />} color="red">
+              {registerError.message}
+            </Alert>
+          )}
           <Text>
             {/* eslint-disable-next-line react/no-unescaped-entities */}
             Already have an account?{' '}
