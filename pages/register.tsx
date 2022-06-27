@@ -9,6 +9,7 @@ import { RiFacebookCircleLine, RiGithubLine } from 'react-icons/ri';
 import styles from '../styles/register.module.css';
 import { z } from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
+import axios from 'axios';
 
 const schema = z
   .object({
