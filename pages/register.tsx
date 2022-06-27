@@ -37,7 +37,18 @@ const Register: NextPage = () => {
     },
   });
 
-  const handleRegister = () => {};
+  const handleRegister = async () => {
+    form.validate();
+    console.log(form.values);
+    if (Object.entries(form.errors).length === 0) {
+      try {
+        const response = await axios.post('/api/register', form.values);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <PageLayout>
