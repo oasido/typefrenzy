@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { Button, Center, Container, Input, Title, Text, InputWrapper } from '@mantine/core';
 import { FaUserAstronaut } from 'react-icons/fa';
-import { MdOutlinePassword } from 'react-icons/md';
+import { MdOutlinePassword, MdOutlineAlternateEmail } from 'react-icons/md';
 import { RiFacebookCircleLine, RiGithubLine } from 'react-icons/ri';
 import styles from '../styles/register.module.css';
 import { z } from 'zod';
@@ -18,6 +18,7 @@ const schema = z
       .min(2, { message: 'Username should have at least 2 letters' })
       .max(15, { message: 'Username cannot be more than 15 characters' }),
     password: z.string().min(6, { message: 'Password needs to be at least 6 characters' }),
+    email: z.string().email(),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -33,6 +34,7 @@ const Register: NextPage = () => {
     schema: zodResolver(schema),
     initialValues: {
       username: '',
+      email: '',
       password: '',
       confirmPassword: '',
     },
@@ -63,6 +65,16 @@ const Register: NextPage = () => {
               placeholder="username"
               size="lg"
               {...form.getInputProps('username')}
+            />
+          </InputWrapper>
+
+          <InputWrapper error={form.errors.email}>
+            <Input
+              icon={<MdOutlineAlternateEmail className={styles.inputIcon} />}
+              placeholder="email"
+              size="lg"
+              type="email"
+              {...form.getInputProps('email')}
             />
           </InputWrapper>
 
