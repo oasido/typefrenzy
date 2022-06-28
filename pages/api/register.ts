@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { supabase } from '../../utils/supabaseClient';
 import { z } from 'zod';
+import bcrypt from 'bcrypt';
 
 const schema = z
   .object({
@@ -35,10 +36,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // if everything is OK
     if (usernameSearch.body?.length === 0 && emailSearch.body?.length === 0) {
-      // encrypt + hash passwords
+      const hashedPassword = await bcrypt.hash(password, 10);
+
       const { error } = await supabase
         .from('users')
-        .insert([{ username, email, password: password }]);
+        .insert([{ username, email, password: hashedPassword, provider: 'credentials' }]);
+
       if (error) {
         return res.json({
           success: false,
