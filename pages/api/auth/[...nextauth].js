@@ -102,5 +102,20 @@ export default NextAuth({
       }
       return true;
     },
+
+    // propogate more props in the session object
+    async jwt({ token, user }) {
+      if (user) {
+        token = { ...token, ...user };
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        const { id, created_at, username, email, provider, avatar, full_name } = token;
+        session = { ...session, id, created_at, username, email, provider, avatar, full_name };
+      }
+      return session;
+    },
   },
 });
