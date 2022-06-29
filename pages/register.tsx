@@ -29,13 +29,14 @@ const schema = z
 
 const Register: NextPage = () => {
   const { data: session } = useSession();
+  // console.log(session);
 
-  interface IRegisterError {
+  type RegisterError = {
     success: null | true | false;
     message: null | string;
-  }
+  };
 
-  const [registerError, setRegisterError] = useState<IRegisterError>({
+  const [registerError, setRegisterError] = useState<RegisterError>({
     success: null,
     message: null,
   });
