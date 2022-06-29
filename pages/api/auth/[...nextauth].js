@@ -80,7 +80,6 @@ export default NextAuth({
       }
 
       if (account.provider === 'facebook') {
-        console.log(profile);
         const { name: full_name, email, image: avatar } = user;
 
         const emailSearch = await supabase.from('users').select().eq('email', email);
