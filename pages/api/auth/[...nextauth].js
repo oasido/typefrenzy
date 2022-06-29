@@ -1,11 +1,48 @@
 import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import GitHubProvider from 'next-auth/providers/github';
 import FacebookProvider from 'next-auth/providers/facebook';
 import { supabase } from '../../../utils/supabaseClient';
-import { generateFromEmail, generateUsername } from 'unique-username-generator';
+import { generateFromEmail } from 'unique-username-generator';
 
 export default NextAuth({
   providers: [
+    CredentialsProvider({
+      // The name to display on the sign in form (e.g. "Sign in with...")
+      name: 'Credentials',
+      // The credentials is used to generate a suitable form on the sign in page.
+      // You can specify whatever fields you are expecting to be submitted.
+      // e.g. domain, username, password, 2FA token, etc.
+      // You can pass any HTML attribute to the <input> tag through the object.
+      credentials: {
+        username: { label: 'Username', type: 'text', placeholder: 'jsmith' },
+        password: { label: 'Password', type: 'password' },
+      },
+      async authorize(credentials, req) {
+        // Add logic here to look up the user from the credentials supplied
+        // check if user is actually using credentials as provider
+
+        const userSearch = await supabase
+          .from('users')
+          .select()
+          .eq('username', credentials.username);
+
+        if (userSearch.body.length > 0 && userSearch.body[0].provider === 'credentials') {
+          // Any object returned will be saved in `user` property of the JWT
+          const { username: name, email } = userSearch.body[0];
+          const user = userSearch.body[0];
+          delete user.password;
+          console.log(user);
+          return user;
+          // return { id: 1, name, email };
+        } else {
+          // If you return null then an error will be displayed advising the user to check their details.
+          return null;
+
+          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+        }
+      },
+    }),
     GitHubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
