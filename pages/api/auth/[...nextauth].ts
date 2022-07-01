@@ -74,9 +74,16 @@ export default NextAuth({
 
         if (emailSearch.body?.length === 0) {
           // if account isn't already registered
-          const { error } = await supabase
-            .from('users')
-            .insert([{ username, email, full_name, provider: 'github', avatar }]);
+          const { error } = await supabase.from('users').insert([
+            {
+              username,
+              email,
+              full_name,
+              provider: 'github',
+              avatar,
+              provider_account_id: account.providerAccountId,
+            },
+          ]);
 
           if (error) {
             return false;
@@ -95,9 +102,16 @@ export default NextAuth({
 
         if (emailSearch.body?.length === 0) {
           const username = generateFromEmail(email ?? generateUsername());
-          const { error } = await supabase
-            .from('users')
-            .insert([{ username, email, full_name, provider: 'facebook', avatar }]);
+          const { error } = await supabase.from('users').insert([
+            {
+              username,
+              email,
+              full_name,
+              provider: 'facebook',
+              avatar,
+              provider_account_id: account.providerAccountId,
+            },
+          ]);
 
           if (error) {
             return false;
@@ -116,17 +130,19 @@ export default NextAuth({
     },
 
     // propogate more props in the session object
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user) {
-        token = { ...token, ...user };
+        const { providerAccountId } = account;
+        token = { ...token, ...user, providerAccountId };
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        const { username, email, avatar } = token;
+        const { username, email, avatar, id } = token;
         session = {
           ...session,
+          id,
           user: {
             name: username as string,
             email,
