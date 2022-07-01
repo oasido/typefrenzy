@@ -52,8 +52,8 @@ const Login: NextPage = () => {
           <Text>
             {/* eslint-disable-next-line react/no-unescaped-entities */}
             Don't have an account?{' '}
-            <Link href="/register">
-              <span className={styles.href}>Register</span>
+            <Link href="/register" passHref>
+              <a className={styles.href}>Register</a>
             </Link>
           </Text>
         </div>
