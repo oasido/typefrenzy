@@ -124,8 +124,15 @@ export default NextAuth({
     },
     async session({ session, token }) {
       if (token) {
-        const { id, created_at, username, email, provider, avatar, full_name } = token;
-        session = { ...session, id, created_at, username, email, provider, avatar, full_name };
+        const { username, email, avatar } = token;
+        session = {
+          ...session,
+          user: {
+            name: username as string,
+            email,
+            image: avatar as string | null,
+          },
+        };
       }
       return session;
     },
