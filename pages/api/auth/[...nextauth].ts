@@ -3,43 +3,49 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GitHubProvider from 'next-auth/providers/github';
 import FacebookProvider from 'next-auth/providers/facebook';
 import { supabase } from '../../../utils/supabaseClient';
-import { generateFromEmail } from 'unique-username-generator';
+import { generateFromEmail, generateUsername } from 'unique-username-generator';
+import bcrypt from 'bcrypt';
 
 export default NextAuth({
   providers: [
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. "Sign in with...")
       name: 'Credentials',
-      // The credentials is used to generate a suitable form on the sign in page.
-      // You can specify whatever fields you are expecting to be submitted.
-      // e.g. domain, username, password, 2FA token, etc.
-      // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
         username: { label: 'Username', type: 'text', placeholder: 'jsmith' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
+      async authorize(credentials): Promise<any> {
         // check if user is actually using credentials as provider
+        const { username, password } = { ...credentials };
 
-        const userSearch = await supabase
-          .from('users')
-          .select()
-          .eq('username', credentials.username);
+        interface UserSearch {
+          id: number;
+          created_at: string;
+          username: string;
+          password?: string;
+          email: string;
+          provider: 'credentials' | 'github' | 'facebook';
+          avatar: string | null;
+          full_name: string | null;
+          [key: string]: any;
+        }
 
-        if (userSearch.body.length > 0 && userSearch.body[0].provider === 'credentials') {
-          // Any object returned will be saved in `user` property of the JWT
-          const { username: name, email } = userSearch.body[0];
-          const user = userSearch.body[0];
-          delete user.password;
-          console.log(user);
-          return user;
-          // return { id: 1, name, email };
-        } else {
-          // If you return null then an error will be displayed advising the user to check their details.
-          return null;
+        const { data }: any = await supabase.from('users').select().eq('username', username);
+        const user: UserSearch = data[0];
 
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+        if (user && user.provider === 'credentials') {
+          const checkUser = async (hash: any, givenPassword: any): Promise<any> => {
+            const match: boolean = await bcrypt.compare(hash, givenPassword);
+
+            if (match) {
+              delete user.password;
+              console.log(user);
+              return user;
+            } else {
+              return null;
+            }
+          };
+          return checkUser(password, user.password);
         }
       },
     }),
@@ -52,7 +58,10 @@ export default NextAuth({
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     }),
   ],
-  // debug: true,
+  pages: {
+    error: '/login',
+    // signIn: '/login',
+  },
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account.provider === 'github') {
@@ -85,7 +94,7 @@ export default NextAuth({
         const emailSearch = await supabase.from('users').select().eq('email', email);
 
         if (emailSearch.body?.length === 0) {
-          const username = generateFromEmail(email);
+          const username = generateFromEmail(email ?? generateUsername());
           const { error } = await supabase
             .from('users')
             .insert([{ username, email, full_name, provider: 'facebook', avatar }]);
@@ -99,7 +108,11 @@ export default NextAuth({
           return true;
         }
       }
-      return true;
+
+      if (account.provider === 'credentials') {
+        return true;
+      }
+      return false;
     },
 
     // propogate more props in the session object
