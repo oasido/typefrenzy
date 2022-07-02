@@ -9,13 +9,14 @@ import { RiFacebookCircleLine, RiGithubLine } from 'react-icons/ri';
 import styles from '../styles/login.module.css';
 import { useForm } from '@mantine/form';
 import { useEffect } from 'react';
+import Router from 'next/router';
 
 const Login: NextPage = () => {
   const session = useSession();
 
   useEffect(() => {
-    console.log(session);
-  }, [session]);
+    session.status === 'authenticated' && Router.push('/');
+  }, [session.status]);
 
   const form = useForm({
     initialValues: {

@@ -10,7 +10,8 @@ import styles from '../styles/register.module.css';
 import { z } from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Router from 'next/router';
 
 const schema = z
   .object({
@@ -28,8 +29,11 @@ const schema = z
   });
 
 const Register: NextPage = () => {
-  const { data: session } = useSession();
-  // console.log(session);
+  const session = useSession();
+
+  useEffect(() => {
+    session.status === 'authenticated' && Router.push('/');
+  }, [session.status]);
 
   type RegisterError = {
     success: null | true | false;
