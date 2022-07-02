@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   createStyles,
   Header,
@@ -12,6 +11,7 @@ import {
 import { useBooleanToggle } from '@mantine/hooks';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 const HEADER_HEIGHT = 60;
 
@@ -87,43 +87,40 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface IPageHeader {
-  links: { link: string; label: string }[];
-}
-
-export function PageHeader({ links }: IPageHeader) {
+export function PageHeader() {
+  const session = useSession();
   const [opened, toggleOpened] = useBooleanToggle(false);
   const { pathname } = useRouter();
 
-  const currentPage = links.filter((link) => link.link === pathname);
-
-  const [active, setActive] = useState(() => {
-    return currentPage.length > 0 ? currentPage[0].link : '#';
-  });
   const { classes, cx } = useStyles();
-
-  const items = links.map((link) => (
-    <Link
-      href={link.link}
-      key={link.label}
-      // onClick={(event) => {
-      //   event.preventDefault();
-      //   setActive(link.link);
-      //   toggleOpened(false);
-      // }}
-    >
-      <a className={cx(classes.link, { [classes.linkActive]: active === link.link })}>
-        {link.label}
-      </a>
-    </Link>
-  ));
 
   return (
     <Header height={HEADER_HEIGHT} mb={120} className={classes.root}>
       <Container className={classes.header}>
         <Title order={2}>TypeFrenzy ⌨️</Title>
         <Group spacing={5} className={classes.links}>
-          {items}
+          <Link href="/">
+            <a className={`${classes.link} ${pathname === '/' && classes.linkActive}`}>Home</a>
+          </Link>
+          <Link href="/about">
+            <a className={`${classes.link} ${pathname === '/about' && classes.linkActive}`}>
+              About
+            </a>
+          </Link>
+          {session.status === 'unauthenticated' && (
+            <Link href="/login">
+              <a className={`${classes.link} ${pathname === '/login' && classes.linkActive}`}>
+                Login
+              </a>
+            </Link>
+          )}
+          {session.status === 'authenticated' && (
+            <Link href="/signout">
+              <a className={`${classes.link} ${pathname === '/signout' && classes.linkActive}`}>
+                Logout
+              </a>
+            </Link>
+          )}
         </Group>
 
         <Burger
@@ -136,7 +133,22 @@ export function PageHeader({ links }: IPageHeader) {
         <Transition transition="pop-top-right" duration={200} mounted={opened}>
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>
-              {items}
+              <Link href="/">
+                <a className={classes.link}>Home</a>
+              </Link>
+              <Link href="/about">
+                <a className={classes.link}>About</a>
+              </Link>
+              {session.status === 'unauthenticated' && (
+                <Link href="/login">
+                  <a className={classes.link}>Login</a>
+                </Link>
+              )}
+              {session.status === 'authenticated' && (
+                <Link href="/login">
+                  <a className={classes.link}>Login</a>
+                </Link>
+              )}
             </Paper>
           )}
         </Transition>
