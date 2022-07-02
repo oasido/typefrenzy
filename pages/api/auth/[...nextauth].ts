@@ -129,9 +129,11 @@ export default NextAuth({
     },
 
     // propogate more props in the session object
+    
     async jwt({ token, user, account }) {
+      
       if (user) {
-        const { providerAccountId } = account;
+        const providerAccountId = account?.providerAccountId;
         token = { ...token, ...user, providerAccountId };
       }
       return token;
