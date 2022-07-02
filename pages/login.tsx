@@ -8,10 +8,14 @@ import { MdOutlinePassword } from 'react-icons/md';
 import { RiFacebookCircleLine, RiGithubLine } from 'react-icons/ri';
 import styles from '../styles/login.module.css';
 import { useForm } from '@mantine/form';
+import { useEffect } from 'react';
 
 const Login: NextPage = () => {
-  const { data: session } = useSession();
-  console.log(session);
+  const session = useSession();
+
+  useEffect(() => {
+    console.log(session);
+  }, [session]);
 
   const form = useForm({
     initialValues: {
