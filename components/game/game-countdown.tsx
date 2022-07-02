@@ -33,6 +33,10 @@ export const GameCountdown = () => {
     <Text>{`${seconds}.${milliseconds}s`}</Text>
   );
 
+  const saveGameInDB = async () => {
+    // save game in db
+  };
+
   const handleGameComplete = () => {
     setIsInGame(false);
     setIsGameEnded(true);
