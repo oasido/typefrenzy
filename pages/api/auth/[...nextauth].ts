@@ -39,7 +39,6 @@ export default NextAuth({
 
             if (match) {
               delete user.password;
-              console.log(user);
               return user;
             } else {
               return null;
