@@ -68,6 +68,7 @@ const useStyles = createStyles((theme) => ({
 
     '&:hover': {
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+      cursor: 'pointer',
     },
 
     [theme.fn.smallerThan('sm')]: {
