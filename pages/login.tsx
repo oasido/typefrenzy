@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import { PageLayout } from '../components/page-layout/page-layout';
 import Link from 'next/link';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 import { Button, Container, Input, Title, Text, Alert } from '@mantine/core';
 import { FaUserAstronaut } from 'react-icons/fa';
 import { MdOutlinePassword } from 'react-icons/md';
