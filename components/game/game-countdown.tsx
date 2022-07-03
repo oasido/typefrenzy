@@ -16,7 +16,7 @@ export const GameCountdown = () => {
     isGameEnded,
     setIsGameEnded,
   } = useGameStore();
-  const [bonus, setBonus] = useState(0);
+  const [bonus, setBonus] = useState<number>(0);
 
   useEffect(() => {
     if (input !== 'start' && isInGame === true) {
