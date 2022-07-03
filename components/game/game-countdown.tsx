@@ -72,7 +72,7 @@ export const GameCountdown = () => {
         <div className={styles.countdown}>
           <IoMdStopwatch size={20} />
           <Countdown
-            date={gameStartDate + 10000 + bonus}
+            date={gameStartDate + 9000 + bonus}
             intervalDelay={0}
             precision={3}
             onComplete={handleGameComplete}
