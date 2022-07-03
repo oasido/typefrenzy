@@ -27,6 +27,7 @@ export const GameCountdown = () => {
     if (input !== 'start' && isInGame === true) {
       setBonus((prev) => prev + 1000);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [word]);
 
   interface Irenderer {

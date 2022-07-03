@@ -26,6 +26,7 @@ export const GameStats = () => {
 
   useEffect(() => {
     answers.length > 0 && handlePoints();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [answers]);
 
   return (
