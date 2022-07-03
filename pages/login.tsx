@@ -2,17 +2,28 @@ import type { NextPage } from 'next';
 import { PageLayout } from '../components/page-layout/page-layout';
 import Link from 'next/link';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import { Button, Container, Input, Title, Text } from '@mantine/core';
+import { Button, Container, Input, Title, Text, Alert } from '@mantine/core';
 import { FaUserAstronaut } from 'react-icons/fa';
 import { MdOutlinePassword } from 'react-icons/md';
 import { RiFacebookCircleLine, RiGithubLine } from 'react-icons/ri';
+import { FiAlertCircle } from 'react-icons/fi';
 import styles from '../styles/login.module.css';
 import { useForm } from '@mantine/form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Router from 'next/router';
 
 const Login: NextPage = () => {
   const session = useSession();
+
+  type Error = {
+    show: boolean;
+    message: string | null;
+  };
+
+  const [error, setError] = useState<Error>({
+    show: false,
+    message: null,
+  });
 
   useEffect(() => {
     session.status === 'authenticated' && Router.push('/');
@@ -26,7 +37,13 @@ const Login: NextPage = () => {
   });
 
   const handleLogin = async () => {
-    signIn('credentials', { username: form.values.username, password: form.values.password });
+    const response = await signIn('credentials', {
+      redirect: false,
+      username: form.values.username,
+      password: form.values.password,
+    });
+
+    response?.error ? setError({ show: true, message: 'Wrong username or password.' }) : null;
   };
 
   return (
@@ -49,11 +66,9 @@ const Login: NextPage = () => {
             name="password"
             {...form.getInputProps('password')}
           />
-
           <Button color="green" onClick={handleLogin}>
             Login
           </Button>
-
           <Text>
             {/* eslint-disable-next-line react/no-unescaped-entities */}
             Don't have an account?{' '}
@@ -61,6 +76,25 @@ const Login: NextPage = () => {
               <a className={styles.href}>Register</a>
             </Link>
           </Text>
+
+          {error?.show && (
+            <Alert
+              icon={<FiAlertCircle size={16} />}
+              title="Login failed"
+              color="red"
+              withCloseButton
+              onClose={() =>
+                setError((err) => {
+                  return {
+                    ...err,
+                    show: false,
+                  };
+                })
+              }
+            >
+              {error.message}
+            </Alert>
+          )}
         </div>
         <div className={styles.otherLogins}>
           <Button
