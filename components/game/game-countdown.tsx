@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useGameStore } from '../../context/useGameStore';
 import { IoMdStopwatch } from 'react-icons/io';
 import styles from '../../styles/game-countdown.module.css';
+import { useSession } from 'next-auth/react';
+import { supabase } from '../../utils/supabaseClient';
 
 export const GameCountdown = () => {
   const {
@@ -15,8 +17,11 @@ export const GameCountdown = () => {
     gameStartDate,
     isGameEnded,
     setIsGameEnded,
+    points,
+    answers,
   } = useGameStore();
   const [bonus, setBonus] = useState<number>(0);
+  const session = useSession();
 
   useEffect(() => {
     if (input !== 'start' && isInGame === true) {
@@ -33,11 +38,28 @@ export const GameCountdown = () => {
     <Text>{`${seconds}.${milliseconds}s`}</Text>
   );
 
+  interface Game {
+    id: number;
+    user: number;
+    points: number;
+    word_count: number;
+  }
+
   const saveGameInDB = async () => {
-    // save game in db
+    const { error } = await supabase.from('games').insert({
+      user: session?.data?.uid,
+      points,
+      word_count: answers.length,
+    });
+
+    if (error) {
+      console.error(error);
+      // TODO: add useState for error
+    }
   };
 
   const handleGameComplete = () => {
+    session.status === 'authenticated' && saveGameInDB();
     setIsInGame(false);
     setIsGameEnded(true);
     setBonus(0);
