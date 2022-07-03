@@ -11,7 +11,7 @@ import {
 import { useBooleanToggle } from '@mantine/hooks';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 
 const HEADER_HEIGHT = 60;
 
@@ -115,11 +115,9 @@ export function PageHeader() {
             </Link>
           )}
           {session.status === 'authenticated' && (
-            <Link href="/signout">
-              <a className={`${classes.link} ${pathname === '/signout' && classes.linkActive}`}>
-                Logout
-              </a>
-            </Link>
+            <a className={classes.link} onClick={() => signOut()}>
+              Logout
+            </a>
           )}
         </Group>
 
