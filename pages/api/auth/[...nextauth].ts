@@ -59,7 +59,7 @@ export default NextAuth({
   ],
   pages: {
     error: '/login',
-    // signIn: '/login',
+    signIn: '/login',
   },
   callbacks: {
     async signIn({ user, account, profile }) {
