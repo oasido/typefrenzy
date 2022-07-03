@@ -129,11 +129,10 @@ export default NextAuth({
     },
 
     // propogate more props in the session object
-    
+
     async jwt({ token, user, account }) {
-      
       if (user) {
-        const providerAccountId = account?.providerAccountId;
+        const providerAccountId: Readonly<string | undefined> = account?.providerAccountId;
         token = { ...token, ...user, providerAccountId };
       }
       return token;
@@ -141,9 +140,12 @@ export default NextAuth({
     async session({ session, token }) {
       if (token) {
         const { username, email, avatar, id } = token;
+        const { data }: any = await supabase.from('users').select().eq('email', email);
+        const uid: number = data[0].id;
         session = {
           ...session,
           id,
+          uid,
           user: {
             name: username as string,
             email,
