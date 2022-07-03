@@ -102,9 +102,9 @@ export function PageHeader() {
           <Link href="/">
             <a className={`${classes.link} ${pathname === '/' && classes.linkActive}`}>Home</a>
           </Link>
-          <Link href="/about">
-            <a className={`${classes.link} ${pathname === '/about' && classes.linkActive}`}>
-              About
+          <Link href="/leaderboard">
+            <a className={`${classes.link} ${pathname === '/leaderboard' && classes.linkActive}`}>
+              Leaderboard
             </a>
           </Link>
           {session.status === 'unauthenticated' && (
