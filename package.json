@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@dicebear/adventurer-neutral": "^4.10.3",
+    "@dicebear/avatars": "^4.10.3",
     "@mantine/core": "^4.2.9",
     "@mantine/form": "^4.2.11",
     "@mantine/hooks": "^4.2.9",
