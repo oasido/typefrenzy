@@ -8,18 +8,28 @@ import { createAvatar } from '@dicebear/avatars';
 import * as avatarStyle from '@dicebear/adventurer-neutral';
 
 type Data = {
-  data: any;
+  data: {
+    id: number;
+    created_at: string;
+    points: number;
+    word_count: number;
+    users: {
+      email: string;
+      username: string;
+      avatar: string | null;
+    };
+  } | null;
 };
 
-const getAvatar = (email) => {
-  const svg = createAvatar(avatarStyle, {
-    seed: email || '',
-  });
-  return svg;
-};
+const Leaderboard: NextPage<Data> = ({ data }) => {
+  const getAvatar = (email: string): string => {
+    const svg = createAvatar(avatarStyle, {
+      seed: email || '',
+    });
+    return svg;
+  };
 
-const Leaderboard: NextPage = ({ data }) => {
-  const rows = data.map((element, index) => {
+  const rows = (data as unknown as any[]).map((element, index) => {
     const { id, word_count, points } = element;
     const { avatar, email, username } = element.users;
 
