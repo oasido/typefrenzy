@@ -139,8 +139,9 @@ export default NextAuth({
     },
     async session({ session, token }) {
       if (token) {
-        const { username, email, avatar, id } = token;
+        const { email, id } = token;
         const { data }: any = await supabase.from('users').select().eq('email', email);
+        const { username, avatar } = data[0];
         const uid: number = data[0].id;
         session = {
           ...session,
