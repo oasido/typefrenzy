@@ -43,7 +43,7 @@ export const GameWord = () => {
       )}
       {isInGame === false && isGameEnded && true && (
         <div className={styles.container}>
-          <h2 className={styles.word}>stats here</h2>
+          <h2 className={styles.word}>Game Over</h2>
         </div>
       )}
     </>
