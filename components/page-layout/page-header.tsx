@@ -12,6 +12,8 @@ import { useBooleanToggle } from '@mantine/hooks';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSession, signOut } from 'next-auth/react';
+import { createAvatar } from '@dicebear/avatars';
+import * as avatarStyle from '@dicebear/adventurer-neutral';
 
 const HEADER_HEIGHT = 60;
 
@@ -89,6 +91,13 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function PageHeader() {
+  const getAvatar = (email: string): string => {
+    const svg = createAvatar(avatarStyle, {
+      seed: email || '',
+    });
+    return svg;
+  };
+
   const session = useSession();
   const [opened, toggleOpened] = useBooleanToggle(false);
   const { pathname } = useRouter();
