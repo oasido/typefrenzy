@@ -145,12 +145,14 @@ export function PageHeader() {
                     <p>{username ? username : email}</p>
                   </div>
                 ) : (
-                  <div
-                    className={styles.menu}
-                    dangerouslySetInnerHTML={{
-                      __html: `<div>${getAvatar(email || '')}</div>`,
-                    }}
-                  />
+                  <div className={styles.menu}>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: `<div>${getAvatar(email || '')}</div>`,
+                      }}
+                    />
+                    <p>{username ? username : email}</p>
+                  </div>
                 )
               }
             >
