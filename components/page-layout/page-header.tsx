@@ -7,13 +7,17 @@ import {
   Paper,
   Transition,
   Title,
+  Menu,
 } from '@mantine/core';
 import { useBooleanToggle } from '@mantine/hooks';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSession, signOut } from 'next-auth/react';
+import { FiSettings, FiLogOut } from 'react-icons/fi';
 import { createAvatar } from '@dicebear/avatars';
 import * as avatarStyle from '@dicebear/adventurer-neutral';
+import Image from 'next/image';
+import styles from '../../styles/page-header.module.css';
 
 const HEADER_HEIGHT = 60;
 
@@ -99,6 +103,12 @@ export function PageHeader() {
   };
 
   const session = useSession();
+
+  const {
+    email,
+    name: username,
+    image: avatar,
+  } = session?.data?.user || { email: null, username: null, avatar: null };
   const [opened, toggleOpened] = useBooleanToggle(false);
   const { pathname } = useRouter();
 
@@ -125,9 +135,31 @@ export function PageHeader() {
             </Link>
           )}
           {session.status === 'authenticated' && (
-            <a className={classes.link} onClick={() => signOut()}>
-              Logout
-            </a>
+            // TODO: sign out without signout page
+            <Menu
+              transition="scale-y"
+              control={
+                avatar ? (
+                  <div className={styles.menu}>
+                    <Image src={avatar} width="35" height="35" alt={`avatar-${username}`} />
+                    <p>{username ? username : email}</p>
+                  </div>
+                ) : (
+                  <div
+                    className={styles.menu}
+                    dangerouslySetInnerHTML={{
+                      __html: `<div>${getAvatar(email || '')}</div>`,
+                    }}
+                  />
+                )
+              }
+            >
+              <Menu.Label>User Menu</Menu.Label>
+              <Menu.Item icon={<FiSettings size={14} />}>Settings</Menu.Item>
+              <Menu.Item color="red" icon={<FiLogOut size={14} />} onClick={() => signOut()}>
+                Logout
+              </Menu.Item>
+            </Menu>
           )}
         </Group>
 

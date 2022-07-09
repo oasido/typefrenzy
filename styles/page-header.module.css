@@ -1,0 +1,20 @@
+.menu {
+  display: flex;
+  align-items: center;
+  padding-right: 0.3rem;
+  padding-left: 0.3rem;
+  grid-gap: 0.5rem;
+}
+
+.menu img,
+.menu svg {
+  border-radius: 100%;
+  max-width: 35px;
+  max-height: 35px;
+  cursor: pointer;
+}
+
+.menu p {
+  cursor: pointer;
+  font-weight: 600;
+}
