@@ -110,7 +110,7 @@ export function PageHeader() {
         <Title order={2}>TypeFrenzy ⌨️</Title>
         <Group spacing={5} className={classes.links}>
           <Link href="/">
-            <a className={`${classes.link} ${pathname === '/' && classes.linkActive}`}>Home</a>
+            <a className={`${classes.link} ${pathname === '/' && classes.linkActive}`}>Play</a>
           </Link>
           <Link href="/leaderboard">
             <a className={`${classes.link} ${pathname === '/leaderboard' && classes.linkActive}`}>
@@ -142,10 +142,10 @@ export function PageHeader() {
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>
               <Link href="/">
-                <a className={classes.link}>Home</a>
+                <a className={classes.link}>Play</a>
               </Link>
-              <Link href="/about">
-                <a className={classes.link}>About</a>
+              <Link href="/leaderboard">
+                <a className={classes.link}>Leaderboard</a>
               </Link>
               {session.status === 'unauthenticated' && (
                 <Link href="/login">
@@ -153,9 +153,23 @@ export function PageHeader() {
                 </Link>
               )}
               {session.status === 'authenticated' && (
-                <Link href="/login">
-                  <a className={classes.link}>Login</a>
-                </Link>
+                <a className={classes.link} onClick={() => signOut()}>
+                  {/* (WIP) To be edited
+                    {avatar ? (
+                      <div className={styles.burgerMenu}>
+                        <Image src={avatar} width="35" height="35" alt={`avatar-${username}`} />
+                        <p>{username}</p>
+                      </div>
+                    ) : (
+                      <div
+                        className={styles.burgerMenu}
+                        dangerouslySetInnerHTML={{
+                          __html: `<div>${getAvatar(email || '')}</div>`,
+                        }}
+                      />
+                    )} */}
+                  Logout from {username ? username : email}
+                </a>
               )}
             </Paper>
           )}
