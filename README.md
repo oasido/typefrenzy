@@ -1,34 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# TypeFrenzy ⌨️
 
-## Getting Started
+TypeFrenzy is a typing game created with Next.js.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+**Easy way to login:**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Use Facebook, GitHub or your using credentials to login.
+TypeFrenzy utilizes Next-Auth with the aforementioned providers.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+I chose to use Supabase for this project, make sure you have the proper Supabase connection credentials in `.env.local`
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Go to [Environment Variables](#Environment-Variables) to see what else you need in `.env.local`
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+    NEXT_PUBLIC_SUPABASE_URL=
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=
 
-## Learn More
+## Showcase
 
-To learn more about Next.js, take a look at the following resources:
+[![Watch the video](https://img.youtube.com/vi/roPiInOeO50/maxresdefault.jpg)](https://youtu.be/roPiInOeO50)
+[Click here or the picture to open in YouTube](https://youtu.be/roPiInOeO50)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Usage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### **Environment Variables**
 
-## Deploy on Vercel
+Create the `.env.local` file in the root directory & fill them accordingly:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    NEXT_PUBLIC_SUPABASE_URL=
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    NEXTAUTH_URL=
+    NEXTAUTH_SECRET=
+
+    FACEBOOK_CLIENT_ID=
+    FACEBOOK_CLIENT_SECRET=
+
+    GITHUB_ID=
+    GITHUB_SECRET=
+
+If you're not familiar with Supabase, [click here](https://supabase.com).
+
+## Docker
+
+(WIP)
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
