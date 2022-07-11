@@ -2,26 +2,39 @@
 
 TypeFrenzy is a typing game created with Next.js.
 
-## Features
+## ✨ Features
 
-**Easy way to login:**
+- **Easy way to login:**
 
-Use Facebook, GitHub or your using credentials to login.
-TypeFrenzy utilizes Next-Auth with the aforementioned providers.
+  Use Facebook, GitHub or your using credentials to login.
+  TypeFrenzy utilizes Next-Auth with the aforementioned providers.
 
-I chose to use Supabase for this project, make sure you have the proper Supabase connection credentials in `.env.local`
+  I chose to use Supabase for this project, make sure you have the proper Supabase connection credentials in `.env.local`
 
-Go to [Environment Variables](#Environment-Variables) to see what else you need in `.env.local`
+    <details>
+      <summary>.env.local variables responsible for Supabase connection:</summary>
+    
+    Go to [Environment Variables](#Environment-Variables) to see what else you need in `.env.local`
+    
+        NEXT_PUBLIC_SUPABASE_URL=
+        NEXT_PUBLIC_SUPABASE_ANON_KEY=
+    
+    </details>
 
-    NEXT_PUBLIC_SUPABASE_URL=
-    NEXT_PUBLIC_SUPABASE_ANON_KEY=
+- **Play with or without an account**
 
-## Showcase
+  If you don't have an account and you finished a game, the game won't be recorded.
+
+- **Leaderboard**
+
+  Leaderboard page showing the top 10 games
+
+## 📹 Showcase
 
 [![Watch the video](https://img.youtube.com/vi/roPiInOeO50/maxresdefault.jpg)](https://youtu.be/roPiInOeO50)
 [Click here or the picture to open in YouTube](https://youtu.be/roPiInOeO50)
 
-## Usage
+## 🧑‍💻 Usage
 
 ### **Environment Variables**
 
@@ -41,11 +54,11 @@ Create the `.env.local` file in the root directory & fill them accordingly:
 
 If you're not familiar with Supabase, [click here](https://supabase.com).
 
-## Docker
+## 🐋 Docker
 
 (WIP)
 
-## Contributing
+## ✋ Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
