@@ -56,7 +56,17 @@ If you're not familiar with Supabase, [click here](https://supabase.com).
 
 ## 🐋 Docker
 
-(WIP)
+### For development, use this:
+
+```docker
+$ docker compose up --build --force-recreate
+```
+
+### For production, use this:
+
+```docker
+$ docker compose -f docker-compose.production.yml up -d
+```
 
 ## ✋ Contributing
 
