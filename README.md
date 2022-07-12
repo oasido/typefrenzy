@@ -2,6 +2,8 @@
 
 TypeFrenzy is a typing game created with Next.js.
 
+### [**View Demo**](https://typefrenzy.ofekasido.xyz/)
+
 ## ✨ Features
 
 - **Easy way to login:**
